@@ -4,7 +4,7 @@ import PlayersTable from './PlayersTable';
 function App() {
   return (
     <div className="App">
-      <h1>MFL Players</h1>
+      <h1>MFL Club Overview</h1>
       <PlayersTable />
     </div>
   );
