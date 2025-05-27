@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/mfl-info/static/css/main.f00dc014.css",
-    "main.js": "/mfl-info/static/js/main.7b7605ff.js",
+    "main.css": "/mfl-info/static/css/main.0c7f485e.css",
+    "main.js": "/mfl-info/static/js/main.c7b1110a.js",
     "static/js/453.274d4262.chunk.js": "/mfl-info/static/js/453.274d4262.chunk.js",
     "index.html": "/mfl-info/index.html",
-    "main.f00dc014.css.map": "/mfl-info/static/css/main.f00dc014.css.map",
-    "main.7b7605ff.js.map": "/mfl-info/static/js/main.7b7605ff.js.map",
+    "main.0c7f485e.css.map": "/mfl-info/static/css/main.0c7f485e.css.map",
+    "main.c7b1110a.js.map": "/mfl-info/static/js/main.c7b1110a.js.map",
     "453.274d4262.chunk.js.map": "/mfl-info/static/js/453.274d4262.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f00dc014.css",
-    "static/js/main.7b7605ff.js"
+    "static/css/main.0c7f485e.css",
+    "static/js/main.c7b1110a.js"
   ]
 }
