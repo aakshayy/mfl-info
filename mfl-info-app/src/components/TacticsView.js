@@ -2,12 +2,12 @@ import React from 'react';
 import { tactics } from '../data/tactics';
 import { getBestAssignment } from '../utils/tacticsOptimizer';
 import { positionOrder } from '../constants/positions';
+import { getStatColors } from '../utils/statColors';
 
 const TacticsView = ({ players }) => {
   if (!players || players.length < 11) {
     return (
       <div className="tactics-section">
-        <h2>Optimal Lineups by Tactic</h2>
         <p>Need at least 11 players to generate tactical lineups.</p>
       </div>
     );
@@ -23,7 +23,6 @@ const TacticsView = ({ players }) => {
 
   return (
     <div className="tactics-section" style={{ marginTop: 0 }}>
-      <h2>Optimal Lineups by Tactic</h2>
       <table className="tactic-table">
         <thead>
           <tr>
@@ -46,14 +45,36 @@ const TacticsView = ({ players }) => {
             return (
               <tr key={tactic.name}>
                 <td>{tactic.name}</td>
-                <td>{sum}</td>
+                <td>
+                  <span 
+                    className="stat-badge"
+                    style={{
+                      color: getStatColors(sum / 11).textColor,
+                      backgroundColor: getStatColors(sum / 11).backgroundColor,
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    {sum}
+                  </span>
+                </td>
                 {positionOrder.map(pos => (
                   <td key={pos}>
                     {posToPlayer[pos] && posToPlayer[pos].length > 0 ? (
                       posToPlayer[pos].map(({ player, rating }) => (
-                        <span key={player.id} style={{ display: 'block' }}>
-                          {player.name} <span style={{ color: '#1976d2', fontWeight: 500 }}>({rating})</span>
-                        </span>
+                        <div key={player.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', marginBottom: '0.5rem' }}>
+                          <span style={{ fontSize: '0.9em' }}>{player.name}</span>
+                          <span 
+                            className="stat-badge"
+                            style={{
+                              color: getStatColors(rating).textColor,
+                              backgroundColor: getStatColors(rating).backgroundColor,
+                              fontWeight: 'bold',
+                              alignSelf: 'flex-start'
+                            }}
+                          >
+                            {rating}
+                          </span>
+                        </div>
                       ))
                     ) : ''}
                   </td>

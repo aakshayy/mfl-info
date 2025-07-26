@@ -1,3 +1,15 @@
+/* Color Palette Variables */
+:root {
+  --color-common: #363636;
+  --color-common-alt: #9f9f9f;
+  --color-limited: #ecd17f;
+  --color-uncommon: #71ff30;
+  --color-rare: #0047ff;
+  --color-rare-alt: #0094ff;
+  --color-legendary: #fa53ff;
+  --color-ultimate: #4d9f98;
+}
+
 .players-table-container {
   font-family: 'Segoe UI', Arial, sans-serif;
   background: #181c24;
@@ -23,7 +35,6 @@ a {
 .tab-header {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
 }
 
 .tab-btn {
@@ -97,9 +108,38 @@ a {
 }
 
 .players-table th, .tactic-table th {
-  background-color: #23283a;
+  background-color: #1a1f2e;
   color: #7cb1ff;
   font-weight: 600;
+}
+
+/* Sortable column headers */
+.players-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+  position: relative;
+}
+
+.players-table th.sortable:hover {
+  background-color: #252a3d;
+  color: #fff;
+}
+
+.sort-icon {
+  margin-left: 0.5rem;
+  font-size: 0.8em;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.sort-icon.active {
+  opacity: 1;
+  color: #7cb1ff;
+}
+
+.players-table th.sortable:hover .sort-icon {
+  opacity: 1;
 }
 
 .players-table tbody tr:nth-child(even), .tactic-table tbody tr:nth-child(even) {
@@ -123,7 +163,7 @@ a {
 }
 
 .averages-section {
-  margin-top: 1.2rem;
+  margin: 1.2rem 0 2rem 0;
   display: flex;
   gap: 2.5rem;
   font-size: 1.15rem;
@@ -134,5 +174,72 @@ a {
   color: #7cb1ff;
   font-weight: bold;
   margin-left: 0.3rem;
+}
+
+/* Stat Badge Styles */
+.stat-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  min-width: 24px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.stat-badge:hover {
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Club Header Styles */
+.club-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 0;
+}
+
+.club-logo {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px;
+  transition: opacity 0.3s ease;
+}
+
+.club-logo:hover {
+  opacity: 0.8;
+}
+
+.club-name {
+  margin: 0;
+  color: #e6eaf2;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .club-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .club-logo {
+    width: 72px;
+    height: 72px;
+    padding: 6px;
+  }
+  
+  .club-name {
+    font-size: 1.8rem;
+  }
 }
 

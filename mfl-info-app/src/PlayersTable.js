@@ -1,58 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './PlayersTable.css';
-import { useClubData } from './hooks/useClubData';
-import ClubForm from './components/ClubForm';
+import ClubHeader from './components/ClubHeader';
 import PlayersTableView from './components/PlayersTableView';
 import TacticsView from './components/TacticsView';
 import StatsOverview from './components/StatsOverview';
 
-const PlayersTable = () => {
+const PlayersTable = ({ clubData }) => {
   const {
     clubName,
     clubLoading,
     clubError,
+    clubLogoUrl,
+    clubLogoLoaded,
+    clubLogoError,
     players,
     playersLoading,
     playersError,
-    clubId,
-    setClubId,
-    loadClubData,
-    loading
-  } = useClubData();
+    setClubLogoLoaded,
+    setClubLogoError
+  } = clubData;
 
   const [activeTab, setActiveTab] = useState('players');
 
-  useEffect(() => {
-    if (clubId) {
-      loadClubData(clubId);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleSubmit = () => {
-    if (clubId) {
-      loadClubData(clubId);
-    }
-  };
-
   return (
     <div className="players-table-container">
-      {/* Club name display */}
-      {clubLoading && <h2>Loading club information...</h2>}
-      {clubError && <h2 style={{color: 'red'}}>Error loading club: {clubError.message}</h2>}
-      {clubName && !clubLoading && !clubError && <h2>{clubName}</h2>}
-
-      {/* Club form */}
-      <ClubForm 
-        clubId={clubId}
-        onClubIdChange={setClubId}
-        onSubmit={handleSubmit}
-        loading={loading}
+      {/* Club header with name and logo */}
+      <ClubHeader 
+        clubName={clubName}
+        clubLogoUrl={clubLogoUrl}
+        clubLogoLoaded={clubLogoLoaded}
+        clubLogoError={clubLogoError}
+        onLogoLoad={setClubLogoLoaded}
+        onLogoError={setClubLogoError}
+        loading={clubLoading}
+        error={clubError}
       />
 
       {/* Loading and error states */}
       {playersLoading && <div className="loading">Loading players...</div>}
       {playersError && <div className="error">Error fetching players: {playersError.message}</div>}
+
+      {/* Stats overview */}
+      <StatsOverview players={players} />
 
       {/* Tabs */}
       {players.length > 0 && (
@@ -81,9 +70,6 @@ const PlayersTable = () => {
           {activeTab === 'tactics' && <TacticsView players={players} />}
         </div>
       )}
-
-      {/* Stats overview */}
-      <StatsOverview players={players} />
     </div>
   );
 };

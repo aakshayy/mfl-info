@@ -7,18 +7,35 @@ const ClubForm = ({ clubId, onClubIdChange, onSubmit, loading }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="players-form">
-      <label htmlFor="clubId-input">Club ID: </label>
-      <input
-        id="clubId-input"
-        type="text"
-        value={clubId || ''}
-        onChange={e => onClubIdChange(e.target.value)}
-        disabled={loading}
-      />
-      <button type="submit" disabled={loading}>
-        {loading ? 'Loading...' : 'Submit'}
-      </button>
+    <form onSubmit={handleSubmit} className="club-form">
+      <div className="form-group">
+        <label htmlFor="clubId-input" className="form-label">
+          Club ID
+        </label>
+        <div className="input-group">
+          <input
+            id="clubId-input"
+            type="text"
+            value={clubId || ''}
+            onChange={e => onClubIdChange(e.target.value)}
+            disabled={loading}
+            className="form-input"
+            placeholder="Enter club ID..."
+          />
+          <button type="submit" disabled={loading || !clubId} className="form-button">
+            {loading ? (
+              <>
+                <span className="loading-spinner" />
+                Loading...
+              </>
+            ) : (
+              <>
+                Search
+              </>
+            )}
+          </button>
+        </div>
+      </div>
     </form>
   );
 };

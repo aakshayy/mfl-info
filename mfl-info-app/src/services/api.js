@@ -36,3 +36,15 @@ export async function fetchClubPlayers(clubId) {
   }
   return await apiCall(`/prod/clubs/${clubId}/players`);
 }
+
+/**
+ * Get club logo URL by club ID
+ * @param {string|number} clubId - Club ID to get logo for
+ * @returns {string} Club logo URL
+ */
+export function getClubLogoUrl(clubId) {
+  if (!clubId) {
+    return null;
+  }
+  return `https://d13e14gtps4iwl.cloudfront.net/u/clubs/${clubId}/logo.png`;
+}
