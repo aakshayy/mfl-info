@@ -3,6 +3,7 @@ import './PlayersTable.css';
 import ClubHeader from './components/ClubHeader';
 import PlayersTableView from './components/PlayersTableView';
 import TacticsView from './components/TacticsView';
+import PlayerPerformanceView from './components/PlayerPerformanceView';
 import StatsOverview from './components/StatsOverview';
 
 const PlayersTable = ({ clubData }) => {
@@ -21,6 +22,12 @@ const PlayersTable = ({ clubData }) => {
   } = clubData;
 
   const [activeTab, setActiveTab] = useState('players');
+  const tabs = [
+    { key: 'players', label: 'Players', render: () => <PlayersTableView players={players} /> },
+    { key: 'tactics', label: 'Tactics', render: () => <TacticsView players={players} /> },
+    { key: 'performance', label: 'Player Performance', render: () => <PlayerPerformanceView players={players} /> },
+  ];
+  const activeTabConfig = tabs.find((tab) => tab.key === activeTab);
 
   return (
     <div className="players-table-container">
@@ -46,28 +53,23 @@ const PlayersTable = ({ clubData }) => {
       {/* Tabs */}
       {players.length > 0 && (
         <div className="tab-header">
-          <button
-            className={`tab-btn${activeTab === 'players' ? ' active' : ''}`}
-            onClick={() => setActiveTab('players')}
-            type="button"
-          >
-            Players
-          </button>
-          <button
-            className={`tab-btn${activeTab === 'tactics' ? ' active' : ''}`}
-            onClick={() => setActiveTab('tactics')}
-            type="button"
-          >
-            Tactics
-          </button>
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              className={`tab-btn${activeTab === tab.key ? ' active' : ''}`}
+              onClick={() => setActiveTab(tab.key)}
+              type="button"
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
       )}
 
       {/* Tab content */}
       {players.length > 0 && (
         <div className="tab-content">
-          {activeTab === 'players' && <PlayersTableView players={players} />}
-          {activeTab === 'tactics' && <TacticsView players={players} />}
+          {activeTabConfig && activeTabConfig.render()}
         </div>
       )}
     </div>

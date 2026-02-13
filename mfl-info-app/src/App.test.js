@@ -1,47 +1,101 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import App from './App';
-import '@testing-library/jest-dom'; // For .toBeInTheDocument()
+import '@testing-library/jest-dom';
 
-// Mock the fetch function globally for tests in this file,
-// as App component renders PlayersTable which fetches data.
 describe('App Component', () => {
-  let mockFetch;
+  const mockPlayersResponse = [
+    {
+      id: '1001',
+      metadata: {
+        firstName: 'Test',
+        lastName: 'Player',
+        positions: ['CM'],
+        overall: 75,
+        age: 25,
+        pace: 70,
+        dribbling: 72,
+        passing: 76,
+        shooting: 68,
+        defense: 74,
+        physical: 73,
+        goalkeeping: 20,
+      },
+      stats: {
+        nbMatches: 3,
+        time: 16200,
+        goals: 1,
+        shots: 3,
+        shotsOnTarget: 2,
+        shotsIntercepted: 0,
+        dribblingSuccess: 4,
+        assists: 1,
+        yellowCards: 0,
+        redCards: 0,
+        saves: 0,
+        goalsConceded: 0,
+        wins: 2,
+        draws: 1,
+        losses: 0,
+        foulsCommitted: 1,
+        foulsSuffered: 2,
+        rating: 78.32,
+        xG: 0.82,
+        chancesCreated: 3,
+        passes: 110,
+        passesAccurate: 99,
+        crosses: 2,
+        crossesAccurate: 1,
+        shotsInterceptions: 1,
+        clearances: 6,
+        dribbledPast: 2,
+        ownGoals: 0,
+        defensiveDuelsWon: 4,
+        v: 6,
+      },
+    },
+  ];
 
   beforeEach(() => {
-    // Clear any previous fetch mocks
-    if (mockFetch) {
-      mockFetch.mockRestore();
-    }
-    mockFetch = jest.spyOn(global, 'fetch').mockImplementation(() =>
-      Promise.resolve({
+    jest.spyOn(global, 'fetch').mockImplementation((url) => {
+      if (url === 'https://z519wdyajg.execute-api.us-east-1.amazonaws.com/prod/clubs/2715') {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({ name: 'Test FC' }),
+        });
+      }
+
+      if (url === 'https://z519wdyajg.execute-api.us-east-1.amazonaws.com/prod/clubs/2715/players') {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve(mockPlayersResponse),
+        });
+      }
+
+      return Promise.resolve({
         ok: true,
-        json: () => Promise.resolve({
-          items: [{ id: "contract1", player: "p1", club: "c1" }],
-          resources: {
-            players: { p1: { metadata: { firstName: "Test", lastName: "Player", positions: ["GK"], overall: 70, age: 30, nationalities: ["ANY"] } } },
-            clubs: { c1: { name: "Any Club" } },
-          },
-        }),
-      })
-    );
+        json: () => Promise.resolve({}),
+      });
+    });
   });
 
   afterEach(() => {
-    // Restore fetch to its original implementation
-    mockFetch.mockRestore();
+    jest.restoreAllMocks();
   });
 
-  test('renders MFL Players heading and eventually the players table', async () => {
+  test('renders heading and fetches club + players after searching a club id', async () => {
     render(<App />);
-    const headingElement = screen.getByText(/MFL Players/i);
-    expect(headingElement).toBeInTheDocument();
+    expect(screen.getByText(/MFL Club Overview/i)).toBeInTheDocument();
 
-    // Check if the table is rendered by waiting for one of its specific headers
-    const tableHeaderElement = await screen.findByText(/Overall/i); 
-    expect(tableHeaderElement).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText(/Club ID/i), { target: { value: '2715' } });
+    fireEvent.click(screen.getByRole('button', { name: /Search/i }));
 
-    // Also check for some data to ensure the mock was effective
-    const playerNameElement = await screen.findByText(/Test Player/i);
-    expect(playerNameElement).toBeInTheDocument();
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith('https://z519wdyajg.execute-api.us-east-1.amazonaws.com/prod/clubs/2715');
+      expect(global.fetch).toHaveBeenCalledWith('https://z519wdyajg.execute-api.us-east-1.amazonaws.com/prod/clubs/2715/players');
+    });
+
+    expect(await screen.findByText('Test FC')).toBeInTheDocument();
+    expect(await screen.findByText(/T\. Player/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Player Performance' })).toBeInTheDocument();
   });
 });

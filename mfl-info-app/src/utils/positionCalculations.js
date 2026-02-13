@@ -1,4 +1,5 @@
 import { positionAttributeWeights, familiarityPenalty } from '../constants/positions';
+import { buildPlayerPerformance } from './playerPerformance';
 
 /**
  * Calculate position rating for a player and position, given their primary position
@@ -75,14 +76,17 @@ export function transformPlayers(rawPlayers) {
     otherPositionsWithRatings = otherPositionsWithRatings.filter(p => p.rating > Number(meta.overall) - 5);
     
     const allRatings = [primaryPositionWithRating, secondaryPositionsWithRatings, otherPositionsWithRatings].flat();
+    const firstNameInitial = meta.firstName?.[0] || '';
+    const playerPerformance = buildPlayerPerformance(player.stats);
     
     return {
       id: player.id,
-      name: `${meta.firstName[0] || ''}. ${meta.lastName || ''}`.trim(),
+      name: `${firstNameInitial}. ${meta.lastName || ''}`.trim(),
       primaryPositionWithRating,
       secondaryPositionsWithRatings,
       otherPositionsWithRatings,
       allRatings,
+      performance: playerPerformance,
       overall: meta.overall ?? 'N/A',
       age: meta.age ?? 'N/A',
       pace: meta.pace ?? 'N/A',
