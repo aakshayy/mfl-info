@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/mfl-info/static/css/main.6a468ea6.css",
-    "main.js": "/mfl-info/static/js/main.4b41c75d.js",
-    "static/js/453.274d4262.chunk.js": "/mfl-info/static/js/453.274d4262.chunk.js",
+    "main.css": "/mfl-info/static/css/main.607e4822.css",
+    "main.js": "/mfl-info/static/js/main.59dff974.js",
+    "static/js/453.c88ba5d6.chunk.js": "/mfl-info/static/js/453.c88ba5d6.chunk.js",
     "index.html": "/mfl-info/index.html",
-    "main.6a468ea6.css.map": "/mfl-info/static/css/main.6a468ea6.css.map",
-    "main.4b41c75d.js.map": "/mfl-info/static/js/main.4b41c75d.js.map",
-    "453.274d4262.chunk.js.map": "/mfl-info/static/js/453.274d4262.chunk.js.map"
+    "main.607e4822.css.map": "/mfl-info/static/css/main.607e4822.css.map",
+    "main.59dff974.js.map": "/mfl-info/static/js/main.59dff974.js.map",
+    "453.c88ba5d6.chunk.js.map": "/mfl-info/static/js/453.c88ba5d6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6a468ea6.css",
-    "static/js/main.4b41c75d.js"
+    "static/css/main.607e4822.css",
+    "static/js/main.59dff974.js"
   ]
 }
